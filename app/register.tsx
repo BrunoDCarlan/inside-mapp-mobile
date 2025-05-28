@@ -3,16 +3,18 @@ import { useState } from 'react';
 import axios from 'axios';
 import { router } from 'expo-router';
 import styles from '../styles/login';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function RegisterScreen() {
   const [username, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setSenha] = useState('');
   const API_URL = 'http://192.168.15.23:8080' //provisório
+  const { setUser } = useAuth();
 
   const handleRegister = async () => {
     try {
-        await axios.post(`${API_URL}/api/users/cadastrar`, {
+      const response = await axios.post(`${API_URL}/api/users/cadastrar`, {
             username,
             email,
             senhaHash: password,
@@ -20,6 +22,7 @@ export default function RegisterScreen() {
           });
 
       Alert.alert('Sucesso', 'Cadastro realizado!');
+      setUser(response.data.usuario);
       router.replace('/menu');
     } catch (error: any) {
       console.error(error);

@@ -1,11 +1,15 @@
 import { View, Text, TextInput, Image, ScrollView, StyleSheet } from 'react-native';
 import styles from '../styles/menu';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function MenuScreen() {
+  const { user } = useAuth();
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+      <Text style={styles.sectionTitle}>Olá, {user?.username}!</Text>
       <TextInput
-        placeholder="Pesquisar local"
+        placeholder="Encontre o seu próximo destino"
         style={styles.searchInput}
       />
 

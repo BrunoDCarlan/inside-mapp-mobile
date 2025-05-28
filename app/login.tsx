@@ -2,6 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import styles from "../styles/login";
 import { useState } from "react";
 import { router } from "expo-router";
+import { useAuth } from '../contexts/AuthContext';
 
 import axios from "axios";
 import { Alert } from "react-native";
@@ -10,6 +11,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const API_URL = 'http://192.168.15.23:8080' //provisório
+  const { setUser } = useAuth();
 
   const handleLogin = async () => {
     try {
@@ -20,9 +22,11 @@ export default function LoginScreen() {
           senha,
         }
       );
-
-      console.log("Login bem-sucedido:", response.data);
+      
+      console.log(response.data.mensagem, response.data.usuario);
       Alert.alert("Sucesso", "Login realizado com sucesso!");
+
+      setUser(response.data.usuario);
       router.replace('/menu');
     } catch (error: any) {
       if (error.response?.status === 401) {
