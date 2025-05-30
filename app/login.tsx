@@ -2,7 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import styles from "../styles/login";
 import { useState } from "react";
 import { router } from "expo-router";
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from "../contexts/AuthContext";
 
 import axios from "axios";
 import { Alert } from "react-native";
@@ -10,24 +10,21 @@ import { Alert } from "react-native";
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const API_URL = 'http://192.168.15.23:8080' //provisório
+  const API_URL = "http://192.168.15.23:8080"; //provisório
   const { setUser } = useAuth();
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        `${API_URL}/api/users/entrar`,
-        {
-          email,
-          senha,
-        }
-      );
-      
+      const response = await axios.post(`${API_URL}/api/users/entrar`, {
+        email,
+        senha,
+      });
+
       console.log(response.data.mensagem, response.data.usuario);
       Alert.alert("Sucesso", "Login realizado com sucesso!");
 
       setUser(response.data.usuario);
-      router.replace('/menu');
+      router.replace("/menu");
     } catch (error: any) {
       if (error.response?.status === 401) {
         Alert.alert("Erro", "Credenciais inválidas");
@@ -39,6 +36,10 @@ export default function LoginScreen() {
 
   const handleCadastro = () => {
     router.push("/register");
+  };
+
+  const handleGuestLogin = () => {
+    router.replace("/menu");
   };
 
   return (
@@ -57,6 +58,7 @@ export default function LoginScreen() {
         <TextInput
           style={styles.input}
           placeholder="E-mail"
+          placeholderTextColor="#94a3b8"
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
@@ -66,20 +68,27 @@ export default function LoginScreen() {
         <TextInput
           style={styles.input}
           placeholder="Senha"
+          placeholderTextColor="#94a3b8"
           secureTextEntry
           value={senha}
           onChangeText={setSenha}
         />
 
-        <TouchableOpacity style={[styles.loginButton, styles.loginButtonEntrar]} onPress={handleLogin}>
+        <TouchableOpacity
+          style={[styles.loginButton, styles.loginButtonEntrar]}
+          onPress={handleLogin}
+        >
           <Text style={styles.loginButtonText}>Entrar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.loginButton, styles.loginButtonCadastrar]} onPress={handleCadastro}>
+        <TouchableOpacity
+          style={[styles.loginButton, styles.loginButtonCadastrar]}
+          onPress={handleCadastro}
+        >
           <Text style={styles.loginButtonText}>Cadastre-se</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Text style={styles.guestText}>Entrar como convidado</Text>
+        <TouchableOpacity onPress={handleGuestLogin}>
+          <Text style={styles.guestLink}>Entrar como convidado</Text>
         </TouchableOpacity>
       </View>
     </View>

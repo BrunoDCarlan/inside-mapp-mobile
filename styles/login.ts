@@ -14,12 +14,11 @@ const login = StyleSheet.create({
     padding: 24,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 8,
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 4,
     flex: 1,
     justifyContent: 'flex-start',
-    
   },
   logoContainer: {
     alignItems: 'center',
@@ -37,24 +36,28 @@ const login = StyleSheet.create({
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    fontFamily: 'System',
+    fontFamily: 'Inter_600SemiBold',
+    fontSize: 20,
+    color: '#1e293b',
     alignSelf: 'flex-start',
-    marginTop: 0,
-    marginBottom: 16,
+    marginBottom: 20,
   },
   input: {
     width: '100%',
     height: 48,
-    backgroundColor: '#F1F5F9',
-    borderRadius: 8,
-    paddingHorizontal: 12,
+    backgroundColor: '#f0f4f8',
+    borderRadius: 14,
+    paddingHorizontal: 16,
     marginBottom: 12,
-    borderColor: '#E2E8F0',
+    borderColor: '#cbd5e1',
     borderWidth: 1,
+    fontSize: 15,
+    fontFamily: 'Inter_400Regular',
+    color: '#1e293b',
   },
   loginButton: {
+    fontFamily: 'Inter_600SemiBold',
+    color: '#fff',
     width: '100%',
     borderRadius: 16,
     paddingVertical: 10,
@@ -71,15 +74,18 @@ const login = StyleSheet.create({
   },
   
   loginButtonText: {
-    color: '#fff',
+    fontFamily: 'Inter_600SemiBold',
     fontSize: 15,
-    fontWeight: '600',
-    letterSpacing: 0.5,
+    color: '#fff',
+    letterSpacing: 0.4,
   },
-  guestText: {
+  guestLink: {
     marginTop: 12,
-    color: '#64748B',
+    color: '#64748B', // cinza suave
+    fontSize: 14,
+    fontFamily: 'Inter_400Regular',
     textDecorationLine: 'underline',
+    alignSelf: 'center',
   },
 });
 
