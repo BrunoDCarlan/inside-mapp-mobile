@@ -56,16 +56,25 @@ const login = StyleSheet.create({
   },
   loginButton: {
     width: '100%',
-    backgroundColor: '#475569',
-    borderRadius: 8,
-    paddingVertical: 12,
+    borderRadius: 16,
+    paddingVertical: 10,
     alignItems: 'center',
     marginTop: 12,
   },
+  
+  loginButtonEntrar: {
+    backgroundColor: '#404a39',
+  },
+  
+  loginButtonCadastrar: {
+    backgroundColor: '#93b67b',
+  },
+  
   loginButtonText: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: '600',
+    letterSpacing: 0.5,
   },
   guestText: {
     marginTop: 12,

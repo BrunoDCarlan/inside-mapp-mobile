@@ -46,7 +46,7 @@ export default function LoginScreen() {
       <View style={styles.modalContainer}>
         <View style={styles.logoContainer}>
           <Image
-            source={require("../assets/logo-inside-mapp.png")}
+            source={require("../assets/logo-com-letreiro.png")}
             style={styles.logo}
             resizeMode="contain"
           />
@@ -71,10 +71,10 @@ export default function LoginScreen() {
           onChangeText={setSenha}
         />
 
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <TouchableOpacity style={[styles.loginButton, styles.loginButtonEntrar]} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Entrar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginButton} onPress={handleCadastro}>
+        <TouchableOpacity style={[styles.loginButton, styles.loginButtonCadastrar]} onPress={handleCadastro}>
           <Text style={styles.loginButtonText}>Cadastre-se</Text>
         </TouchableOpacity>
 
