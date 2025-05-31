@@ -81,7 +81,7 @@ const login = StyleSheet.create({
   },
   guestLink: {
     marginTop: 12,
-    color: '#64748B', // cinza suave
+    color: '#64748B',
     fontSize: 14,
     fontFamily: 'Inter_400Regular',
     textDecorationLine: 'underline',

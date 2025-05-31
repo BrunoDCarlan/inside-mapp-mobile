@@ -3,6 +3,7 @@ import styles from "../styles/login";
 import { useState } from "react";
 import { router } from "expo-router";
 import { useAuth } from "../contexts/AuthContext";
+import * as Animatable from 'react-native-animatable';
 
 import axios from "axios";
 import { Alert } from "react-native";
@@ -45,51 +46,55 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.modalContainer}>
-        <View style={styles.logoContainer}>
-          <Image
-            source={require("../assets/logo-com-letreiro.png")}
-            style={styles.logo}
-            resizeMode="contain"
+        <Animatable.View animation="fadeInDown" duration={700}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require("../assets/logo-com-letreiro.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
+        </Animatable.View>
+
+        <Animatable.View animation="fadeInUp" delay={300} duration={800}>
+          <Text style={styles.subtitle}>Seja bem vindo!</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="E-mail"
+            placeholderTextColor="#94a3b8"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
           />
-        </View>
 
-        <Text style={styles.subtitle}>Seja bem vindo!</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Senha"
+            placeholderTextColor="#94a3b8"
+            secureTextEntry
+            value={senha}
+            onChangeText={setSenha}
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          placeholderTextColor="#94a3b8"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          value={email}
-          onChangeText={setEmail}
-        />
+          <TouchableOpacity
+            style={[styles.loginButton, styles.loginButtonEntrar]}
+            onPress={handleLogin}
+          >
+            <Text style={styles.loginButtonText}>Entrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.loginButton, styles.loginButtonCadastrar]}
+            onPress={handleCadastro}
+          >
+            <Text style={styles.loginButtonText}>Cadastre-se</Text>
+          </TouchableOpacity>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          placeholderTextColor="#94a3b8"
-          secureTextEntry
-          value={senha}
-          onChangeText={setSenha}
-        />
-
-        <TouchableOpacity
-          style={[styles.loginButton, styles.loginButtonEntrar]}
-          onPress={handleLogin}
-        >
-          <Text style={styles.loginButtonText}>Entrar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.loginButton, styles.loginButtonCadastrar]}
-          onPress={handleCadastro}
-        >
-          <Text style={styles.loginButtonText}>Cadastre-se</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={handleGuestLogin}>
-          <Text style={styles.guestLink}>Entrar como convidado</Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={handleGuestLogin}>
+            <Text style={styles.guestLink}>Entrar como convidado</Text>
+          </TouchableOpacity>
+        </Animatable.View>
       </View>
     </View>
   );

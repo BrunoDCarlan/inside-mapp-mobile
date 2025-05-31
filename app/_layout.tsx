@@ -1,6 +1,5 @@
-import { Slot } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthProvider } from '../contexts/AuthContext';
+import { Stack } from 'expo-router';
 
 import { useFonts, Inter_400Regular, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
@@ -25,9 +24,12 @@ export default function Layout() {
 
   return (
     <AuthProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Slot />
-      </SafeAreaView>
+      <Stack
+        screenOptions={{
+          animation: 'fade',
+          headerShown: false,
+        }}
+      />
     </AuthProvider>
   );
 }
