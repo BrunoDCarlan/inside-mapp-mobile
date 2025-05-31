@@ -9,17 +9,17 @@ export default function RegisterScreen() {
   const [username, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setSenha] = useState('');
-  const API_URL = 'http://192.168.15.23:8080' //provisório
+  const API_URL = 'http://192.168.15.23:8080'; // provisório
   const { setUser } = useAuth();
 
   const handleRegister = async () => {
     try {
       const response = await axios.post(`${API_URL}/api/users/cadastrar`, {
-            username,
-            email,
-            senhaHash: password,
-            tipo: 'usuario',
-          });
+        username,
+        email,
+        senhaHash: password,
+        tipo: 'usuario',
+      });
 
       Alert.alert('Sucesso', 'Cadastro realizado!');
       setUser(response.data.usuario);
@@ -32,36 +32,40 @@ export default function RegisterScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.modalContainer}>
+      <View style={styles.formContainer}>
         <Text style={styles.subtitle}>Crie sua conta</Text>
 
         <TextInput
           style={styles.input}
           placeholder="Nome completo"
+          placeholderTextColor="#94a3b8"
           value={username}
           onChangeText={setNome}
         />
         <TextInput
           style={styles.input}
           placeholder="E-mail"
+          placeholderTextColor="#94a3b8"
           keyboardType="email-address"
           autoCapitalize="none"
+          autoComplete="email"
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
           style={styles.input}
           placeholder="Senha"
+          placeholderTextColor="#94a3b8"
           secureTextEntry
           value={password}
           onChangeText={setSenha}
         />
 
-        <TouchableOpacity style={styles.loginButton} onPress={handleRegister}>
-          <Text style={styles.loginButtonText}>Cadastrar</Text>
+        <TouchableOpacity style={[styles.loginButton, styles.loginButtonCadastrar]} onPress={handleRegister} activeOpacity={0.8}>
+          <Text style={styles.loginButtonText}>Cadastre-se</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.replace('/login')}>
+        <TouchableOpacity onPress={() => router.replace('/login')} activeOpacity={0.7}>
           <Text style={styles.guestLink}>Já tem conta? Entrar</Text>
         </TouchableOpacity>
       </View>

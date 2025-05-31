@@ -3,85 +3,84 @@ import { StyleSheet } from 'react-native';
 const login = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fefed5',
+    paddingHorizontal: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },  
+  containerLogin: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     paddingTop: 80,
   },
-  modalContainer: {
-    width: '100%',
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    padding: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 4,
+  formWelcomeContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 24,
   },
   logoContainer: {
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 16,
-  },
-  logo: {
-    width: 250,
-    height: 250,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '600',
-    color: '#2F3E46',
     marginBottom: 8,
   },
+  logo: {
+    width: 220,
+    height: 220,
+  },
+  formContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  title: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 22,
+    color: '#3d4d3a',
+    textAlign: 'center',
+    marginBottom: 8,
+  },  
   subtitle: {
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'Poppins_700Bold', // fonte arredondada e robusta
     fontSize: 20,
-    color: '#1e293b',
+    color: '#3d4d3a', // verde escuro da paleta
     alignSelf: 'flex-start',
     marginBottom: 20,
   },
   input: {
     width: '100%',
     height: 48,
-    backgroundColor: '#f0f4f8',
+    backgroundColor: '#e5d3b3', // fundo claro pastel para inputs
     borderRadius: 14,
     paddingHorizontal: 16,
     marginBottom: 12,
-    borderColor: '#cbd5e1',
-    borderWidth: 1,
+    borderColor: '#3d4d3a', // borda forte da paleta
+    borderWidth: 2,
     fontSize: 15,
     fontFamily: 'Inter_400Regular',
-    color: '#1e293b',
+    color: '#3d4d3a',
   },
   loginButton: {
     fontFamily: 'Inter_600SemiBold',
-    color: '#fff',
     width: '100%',
     borderRadius: 16,
-    paddingVertical: 10,
+    paddingVertical: 12,
     alignItems: 'center',
     marginTop: 12,
   },
-  
   loginButtonEntrar: {
-    backgroundColor: '#404a39',
+    backgroundColor: '#6f8a69', // botão principal verde escuro
   },
-  
   loginButtonCadastrar: {
-    backgroundColor: '#93b67b',
+    backgroundColor: '#3d4d3a', // tom intermediário da paleta
   },
-  
   loginButtonText: {
     fontFamily: 'Inter_600SemiBold',
     fontSize: 15,
-    color: '#fff',
+    color: '#fcfcfc', // texto claro em botões escuros
     letterSpacing: 0.4,
   },
   guestLink: {
-    marginTop: 12,
-    color: '#64748B',
+    marginTop: 16,
+    color: '#3d4d3a',
     fontSize: 14,
     fontFamily: 'Inter_400Regular',
     textDecorationLine: 'underline',
