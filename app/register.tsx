@@ -19,7 +19,7 @@ export default function RegisterScreen() {
         username,
         email,
         senhaHash: password,
-        tipo: 'usuario',
+        tipo: 'U',
       });
 
       const { token } = response.data;

@@ -1,20 +1,47 @@
-import {View,Text,TextInput,TouchableOpacity,Image,Animated,Easing,} from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Animated,
+  Easing,
+} from "react-native";
 import styles from "../styles/login";
 import { useState, useEffect, useRef } from "react";
 import { router } from "expo-router";
 import { useAuth } from "../contexts/AuthContext";
 import * as Animatable from "react-native-animatable";
+import type { CustomAnimation } from "react-native-animatable";
+import type {
+  View as AnimatableView,
+  ViewStyle,
+  TextStyle,
+  ImageStyle,
+} from "react-native";
 import axios from "axios";
-import { Alert } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const smoothShake: CustomAnimation<ViewStyle & TextStyle & ImageStyle> = {
+  0: { translateX: 0 },
+  0.25: { translateX: -5 },
+  0.5: { translateX: 5 },
+  0.75: { translateX: -5 },
+  1: { translateX: 0 },
+};
+
+Animatable.initializeRegistryWithDefinitions({ smoothShake });
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [showLogin, setShowLogin] = useState(false);
+  const [loginError, setLoginError] = useState(false);
   const logoTranslateY = useRef(new Animated.Value(0)).current;
   const API_URL = "http://192.168.15.23:8080"; // provisório
   const { setUser } = useAuth();
+  const emailRef = useRef<Animatable.View & AnimatableView>(null);
+  const senhaRef = useRef<Animatable.View & AnimatableView>(null);
 
   const animateLogoUp = () => {
     Animated.timing(logoTranslateY, {
@@ -36,13 +63,14 @@ export default function LoginScreen() {
       await AsyncStorage.setItem("authToken", token);
       setUser({ ...response.data.usuario, token });
 
-      Alert.alert("Sucesso", "Login realizado com sucesso!");
       router.replace("/menu");
     } catch (error: any) {
       if (error.response?.status === 401) {
-        Alert.alert("Erro", "Credenciais inválidas");
+        setLoginError(true);
+        emailRef.current?.animate("smoothShake" as any, 800);
+        senhaRef.current?.animate("smoothShake" as any, 800);
       } else {
-        Alert.alert("Erro", "Ocorreu um erro inesperado");
+        setLoginError(true);
       }
     }
   };
@@ -55,15 +83,16 @@ export default function LoginScreen() {
     try {
       const response = await axios.post(`${API_URL}/api/users/guest`);
 
-      const { token } = response.data;
+      const { token, usuario } = response.data;
+      setUser({ ...usuario, token });
       router.replace("/menu");
     } catch (error: any) {
-      Alert.alert("Erro", "Ocorreu um erro inesperado");
+      setLoginError(true);
     }
   };
 
   return (
-    <View style={[styles.container, showLogin && styles.containerLogin]}>
+    <View style={styles.container}>
       <Animated.View
         style={[
           styles.logoContainer,
@@ -78,7 +107,12 @@ export default function LoginScreen() {
       </Animated.View>
 
       {!showLogin && (
-        <View style={styles.formWelcomeContainer}>
+        <View
+          style={[
+            styles.formContainer,
+            { alignItems: "center", flex: 1, justifyContent: "center" },
+          ]}
+        >
           <Text style={styles.title}>Bem-vindo ao Inside Mapp</Text>
           <Text style={styles.subtitle}>
             O mapa que pensa em todos os passos
@@ -101,27 +135,44 @@ export default function LoginScreen() {
           duration={800}
           style={styles.formContainer}
         >
-          <Text style={styles.subtitle}>Seja bem vindo!</Text>
+          <Text style={styles.subtitle}>Seja bem-vindo!</Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="E-mail"
-            placeholderTextColor="#94a3b8"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-            value={email}
-            onChangeText={setEmail}
-          />
+          <Animatable.View ref={emailRef} style={{ width: "100%" }}>
+            <TextInput
+              style={[styles.input, loginError && styles.inputError]}
+              placeholder="E-mail"
+              placeholderTextColor="#94a3b8"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+              value={email}
+              onChangeText={(text) => {
+                setEmail(text);
+                if (loginError) setLoginError(false);
+              }}
+            />
+          </Animatable.View>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Senha"
-            placeholderTextColor="#94a3b8"
-            secureTextEntry
-            value={senha}
-            onChangeText={setSenha}
-          />
+          <Animatable.View ref={senhaRef} style={{ width: "100%" }}>
+            <TextInput
+              style={[styles.input, loginError && styles.inputError]}
+              placeholder="Senha"
+              placeholderTextColor="#94a3b8"
+              secureTextEntry
+              value={senha}
+              onChangeText={(text) => {
+                setSenha(text);
+                if (loginError) setLoginError(false);
+              }}
+            />
+          </Animatable.View>
+
+          {loginError && (
+            <Text style={styles.errorText}>
+              Credenciais inválidas.{" "}
+              <Text style={styles.recover}>Recuperar senha</Text>
+            </Text>
+          )}
 
           <TouchableOpacity
             style={[styles.loginButton, styles.loginButtonEntrar]}

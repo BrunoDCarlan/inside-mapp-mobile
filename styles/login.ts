@@ -86,6 +86,20 @@ const login = StyleSheet.create({
     textDecorationLine: 'underline',
     alignSelf: 'center',
   },
+  inputError: {
+    borderColor: '#ff4d4d',
+  },
+  errorText: {
+    color: '#ff4d4d',
+    fontSize: 13,
+    alignSelf: 'flex-start',
+    marginBottom: 8,
+    fontFamily: 'Inter_400Regular',
+  },
+  recover: {
+    textDecorationLine: 'underline',
+  },
+
 });
 
 export default login;
