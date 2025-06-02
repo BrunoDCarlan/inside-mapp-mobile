@@ -4,6 +4,7 @@ import axios from 'axios';
 import { router } from 'expo-router';
 import styles from '../styles/login';
 import { useAuth } from '../contexts/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterScreen() {
   const [username, setNome] = useState('');
@@ -21,8 +22,12 @@ export default function RegisterScreen() {
         tipo: 'usuario',
       });
 
+      const { token } = response.data;
+      await AsyncStorage.setItem("authToken", token);
+      setUser({ ...response.data.usuario, token });
+
       Alert.alert('Sucesso', 'Cadastro realizado!');
-      setUser(response.data.usuario);
+
       router.replace('/menu');
     } catch (error: any) {
       console.error(error);

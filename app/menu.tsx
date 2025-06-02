@@ -10,6 +10,7 @@ export default function MenuScreen() {
       <Text style={styles.sectionTitle}>Olá, {user?.username}!</Text>
       <TextInput
         placeholder="Encontre o seu próximo destino"
+        placeholderTextColor="#a0a0a0"
         style={styles.searchInput}
       />
 

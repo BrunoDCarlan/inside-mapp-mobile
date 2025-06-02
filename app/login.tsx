@@ -1,18 +1,19 @@
-import { View, Text, TextInput, TouchableOpacity, Image, Animated, Easing } from 'react-native';
-import styles from '../styles/login';
-import { useState, useEffect, useRef } from 'react';
-import { router } from 'expo-router';
-import { useAuth } from '../contexts/AuthContext';
-import * as Animatable from 'react-native-animatable';
-import axios from 'axios';
-import { Alert } from 'react-native';
+import {View,Text,TextInput,TouchableOpacity,Image,Animated,Easing,} from "react-native";
+import styles from "../styles/login";
+import { useState, useEffect, useRef } from "react";
+import { router } from "expo-router";
+import { useAuth } from "../contexts/AuthContext";
+import * as Animatable from "react-native-animatable";
+import axios from "axios";
+import { Alert } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [showLogin, setShowLogin] = useState(false);
   const logoTranslateY = useRef(new Animated.Value(0)).current;
-  const API_URL = 'http://192.168.15.23:8080'; // provisório
+  const API_URL = "http://192.168.15.23:8080"; // provisório
   const { setUser } = useAuth();
 
   const animateLogoUp = () => {
@@ -31,33 +32,46 @@ export default function LoginScreen() {
         senha,
       });
 
-      Alert.alert('Sucesso', 'Login realizado com sucesso!');
-      setUser(response.data.usuario);
-      router.replace('/menu');
+      const { token } = response.data;
+      await AsyncStorage.setItem("authToken", token);
+      setUser({ ...response.data.usuario, token });
+
+      Alert.alert("Sucesso", "Login realizado com sucesso!");
+      router.replace("/menu");
     } catch (error: any) {
       if (error.response?.status === 401) {
-        Alert.alert('Erro', 'Credenciais inválidas');
+        Alert.alert("Erro", "Credenciais inválidas");
       } else {
-        Alert.alert('Erro', 'Ocorreu um erro inesperado');
+        Alert.alert("Erro", "Ocorreu um erro inesperado");
       }
     }
   };
 
   const handleCadastro = () => {
-    router.push('/register');
+    router.push("/register");
   };
 
-  const handleGuestLogin = () => {
-    router.replace('/menu');
+  const handleGuestLogin = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/api/users/guest`);
+
+      const { token } = response.data;
+      router.replace("/menu");
+    } catch (error: any) {
+      Alert.alert("Erro", "Ocorreu um erro inesperado");
+    }
   };
 
   return (
     <View style={[styles.container, showLogin && styles.containerLogin]}>
       <Animated.View
-        style={[styles.logoContainer, { transform: [{ translateY: logoTranslateY }] }]}
+        style={[
+          styles.logoContainer,
+          { transform: [{ translateY: logoTranslateY }] },
+        ]}
       >
         <Image
-          source={require('../assets/logo-inside-mapp-com-letreiro.png')}
+          source={require("../assets/logo-inside-mapp-com-letreiro.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -66,7 +80,9 @@ export default function LoginScreen() {
       {!showLogin && (
         <View style={styles.formWelcomeContainer}>
           <Text style={styles.title}>Bem-vindo ao Inside Mapp</Text>
-          <Text style={styles.subtitle}>O mapa que pensa em todos os passos</Text>
+          <Text style={styles.subtitle}>
+            O mapa que pensa em todos os passos
+          </Text>
 
           <TouchableOpacity
             style={[styles.loginButton, styles.loginButtonEntrar]}
@@ -79,7 +95,12 @@ export default function LoginScreen() {
       )}
 
       {showLogin && (
-        <Animatable.View animation="fadeInUp" delay={300} duration={800} style={styles.formContainer}>
+        <Animatable.View
+          animation="fadeInUp"
+          delay={300}
+          duration={800}
+          style={styles.formContainer}
+        >
           <Text style={styles.subtitle}>Seja bem vindo!</Text>
 
           <TextInput
